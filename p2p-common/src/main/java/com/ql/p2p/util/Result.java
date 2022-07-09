@@ -1,5 +1,6 @@
 package com.ql.p2p.util;
 
+import com.ql.p2p.enums.ResultEnums;
 import lombok.Data;
 
 import java.io.Serializable;

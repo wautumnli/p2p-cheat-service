@@ -23,4 +23,10 @@ pagehelper:
 logging:
   config: classpath:log4j2.xml
 
+jwt:
+  tokenHeader: X-Token
+  tokenHead: Bearer
+  secret: p2p-jwt
+  expiration: 604800
+
 

@@ -1,4 +1,4 @@
-package com.ql.p2p.util;
+package com.ql.p2p.enums;
 
 /**
  * @author wanqiuli

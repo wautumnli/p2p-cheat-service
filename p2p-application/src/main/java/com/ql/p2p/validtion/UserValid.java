@@ -19,4 +19,14 @@ public class UserValid {
         String checkField = "username";
         AssertUtils.check(userDto, checkField);
     }
+
+    public static void register(UserDto userDto) {
+        String checkField = "username,password,nickname";
+        AssertUtils.check(userDto, checkField);
+    }
+
+    public static void login(UserDto userDto) {
+        String checkField = "username,password";
+        AssertUtils.check(userDto, checkField);
+    }
 }

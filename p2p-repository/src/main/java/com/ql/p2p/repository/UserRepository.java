@@ -1,5 +1,6 @@
 package com.ql.p2p.repository;
 
+import com.ql.p2p.domain.User;
 import com.ql.p2p.dto.UserDto;
 
 /**
@@ -15,4 +16,19 @@ public interface UserRepository {
      * @return the {@link UserDto} data
      */
     UserDto queryUserInfo(UserDto userQueryDto);
+
+    /**
+     * function is getUserByUsername
+     *
+     * @param username the username
+     * @return the {@link User} data
+     */
+    User getUserByUsername(String username);
+
+    /**
+     * function is save
+     *
+     * @param userDto the userDto
+     */
+    void save(UserDto userDto);
 }

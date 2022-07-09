@@ -1,5 +1,6 @@
 package com.ql.p2p.application;
 
+import com.ql.p2p.dto.AuthDto;
 import com.ql.p2p.dto.UserDto;
 import com.ql.p2p.util.Result;
 
@@ -15,4 +16,20 @@ public interface UserService {
      * @return the {@link Result<UserDto>} data
      */
     Result<UserDto> queryUserInfo(UserDto userDto);
+
+    /**
+     * function is register
+     *
+     * @param userDto the userDto
+     * @return the {@link Result<String>} data
+     */
+    Result<String> register(UserDto userDto);
+
+    /**
+     * function is login
+     *
+     * @param userDto the userDto
+     * @return the {@link Result<AuthDto>} data
+     */
+    Result<AuthDto> login(UserDto userDto);
 }
