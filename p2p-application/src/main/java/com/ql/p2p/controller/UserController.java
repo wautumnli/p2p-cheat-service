@@ -5,6 +5,7 @@ import com.ql.p2p.dto.UserDto;
 import com.ql.p2p.util.Result;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -13,7 +14,8 @@ import javax.annotation.Resource;
  * @author wanqiuli
  * @date 2022/7/9 15:48
  */
-@RestController("/user")
+@RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Resource

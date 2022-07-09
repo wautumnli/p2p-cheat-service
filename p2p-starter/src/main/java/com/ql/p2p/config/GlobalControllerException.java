@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalControllerException {
 
     @ExceptionHandler(value = P2pException.class)
-    @ResponseBody
     public Result<String> p2pExceptionHandle(P2pException exception) {
         return Result.fail(exception.getMessage());
     }

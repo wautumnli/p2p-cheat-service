@@ -1,12 +1,16 @@
 package com.ql.p2p.util;
 
+import lombok.Data;
+
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
  * @author wanqiuli
  * @date 2022/7/9 15:49
  */
-public class Result<T> {
+@Data
+public class Result<T> implements Serializable {
 
     private int code;
     private String msg;
@@ -30,12 +34,12 @@ public class Result<T> {
         return result;
     }
 
-    public Result() {}
+    public Result() {
+    }
 
     public Result(ResultEnums resultEnum) {
-        Result<T> result = new Result<T>();
-        result.setCode(resultEnum.getCode());
-        result.setMsg(resultEnum.getMsg());
+        this.code = resultEnum.getCode();
+        this.msg = resultEnum.getMsg();
     }
 
     public void setCode(int code) {
@@ -48,5 +52,14 @@ public class Result<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

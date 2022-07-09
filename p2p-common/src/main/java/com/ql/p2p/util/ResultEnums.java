@@ -9,8 +9,8 @@ public enum ResultEnums {
     /**
      * 请求状态枚举
      */
-    SUCCESS(200, "request handle success"),
-    ERROR(404, "request handle error"),
+    SUCCESS(200, "success"),
+    ERROR(400, "fail"),
     ;
 
     private final int code;
