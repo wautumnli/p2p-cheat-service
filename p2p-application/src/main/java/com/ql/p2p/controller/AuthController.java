@@ -2,12 +2,10 @@ package com.ql.p2p.controller;
 
 import com.ql.p2p.application.UserService;
 import com.ql.p2p.dto.AuthDto;
+import com.ql.p2p.dto.CaptchaDto;
 import com.ql.p2p.dto.UserDto;
 import com.ql.p2p.util.Result;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -42,5 +40,13 @@ public class AuthController {
     @PostMapping("/login")
     public Result<AuthDto> login(@RequestBody UserDto userDto) {
         return userService.login(userDto);
+    }
+
+    /**
+     * 获取验证码
+     */
+    @GetMapping("/getCaptcha")
+    public Result<CaptchaDto> getCaptcha() {
+        return userService.getCaptcha();
     }
 }

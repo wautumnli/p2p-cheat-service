@@ -26,7 +26,7 @@ public class UserValid {
     }
 
     public static void login(UserDto userDto) {
-        String checkField = "username,password";
+        String checkField = "username,password,uuid,captcha";
         AssertUtils.check(userDto, checkField);
     }
 }
