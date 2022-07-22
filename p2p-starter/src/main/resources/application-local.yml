@@ -22,3 +22,12 @@ redis:
       # 连接池最大阻塞等待时间(使用负数表示没有限制,单位ms)
       max-wait: 3000
 
+oauth2:
+  github:
+    clientId: f1bfd0558a7922de98d2
+    clientSecret: d03893ab22909c7cfa7f188532e5dbb314f6d2b8
+    authorizeUrl: https://github.com/login/oauth/authorize
+    redirectUrl : http://localhost:8081/auth/callback
+    accessTokenUrl: https://github.com/login/oauth/access_token
+    userInfoUrl: https://api.github.com/user
+

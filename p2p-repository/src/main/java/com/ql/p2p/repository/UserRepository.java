@@ -31,4 +31,11 @@ public interface UserRepository {
      * @param userDto the userDto
      */
     void save(UserDto userDto);
+
+    /**
+     * function is save
+     *
+     * @param user the user
+     */
+    void save(User user);
 }

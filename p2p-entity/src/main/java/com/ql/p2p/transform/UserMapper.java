@@ -20,4 +20,6 @@ public interface UserMapper {
     User toEntity(UserPo userPo);
 
     UserPo toPo(UserDto userDto);
+
+    UserPo toPo(User user);
 }

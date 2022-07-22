@@ -76,7 +76,7 @@ public class P2pSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/register", "/getCaptcha")
+                .antMatchers("/auth/**")
                 .permitAll()
                 .antMatchers(HttpMethod.OPTIONS)
                 .permitAll()

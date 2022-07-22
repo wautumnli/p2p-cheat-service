@@ -40,4 +40,10 @@ public class UserRepositoryImpl implements UserRepository {
         UserPo userPo = UserMapper.MAPPER.toPo(userDto);
         userDao.insert(userPo);
     }
+
+    @Override
+    public void save(User user) {
+        UserPo userPo = UserMapper.MAPPER.toPo(user);
+        userDao.insert(userPo);
+    }
 }

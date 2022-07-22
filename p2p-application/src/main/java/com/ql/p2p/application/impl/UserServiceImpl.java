@@ -4,11 +4,15 @@ import cn.apiclub.captcha.Captcha;
 import cn.apiclub.captcha.backgrounds.GradiatedBackgroundProducer;
 import cn.apiclub.captcha.gimpy.FishEyeGimpyRenderer;
 import cn.hutool.core.util.IdUtil;
+import com.ql.p2p.application.IAuthService;
 import com.ql.p2p.application.UserService;
-import com.ql.p2p.dto.AuthDto;
-import com.ql.p2p.dto.CaptchaDto;
-import com.ql.p2p.dto.UserDto;
+import com.ql.p2p.domain.Auth;
+import com.ql.p2p.domain.User;
+import com.ql.p2p.dto.*;
+import com.ql.p2p.enums.Oauth2Enums;
 import com.ql.p2p.exception.P2pException;
+import com.ql.p2p.manager.UserManager;
+import com.ql.p2p.repository.AuthRepository;
 import com.ql.p2p.repository.UserRepository;
 import com.ql.p2p.util.CaptchaUtils;
 import com.ql.p2p.util.Result;
@@ -45,6 +49,12 @@ public class UserServiceImpl implements UserService {
     private JwtProperties jwtProperties;
     @Resource
     private RedisUtils redisUtils;
+    @Resource
+    private IAuthService<GithubUser> githubAuthService;
+    @Resource
+    private AuthRepository authRepository;
+    @Resource
+    private UserManager userManager;
 
     @Override
     public Result<UserDto> queryUserInfo(UserDto userQueryDto) {
@@ -77,7 +87,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result<AuthDto> login(UserDto userDto) {
+    public Result<TokenDto> login(UserDto userDto) {
         // 校验
         UserValid.login(userDto);
         // 验证码校验
@@ -90,11 +100,8 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(userDto.getPassword(), existUserDto.getPassword())) {
             throw P2pException.fail("密码不正确,请检查");
         }
-        String token = jwtTokenUtils.generateToken(userDto.getUsername());
-        AuthDto authDto = new AuthDto()
-                .setToken(token)
-                .setTokenHead(jwtProperties.getTokenHead());
-        return Result.success(authDto);
+        // 创建token 返回
+        return Result.success(createTokenDto(userDto.getUsername()));
     }
 
     @Override
@@ -117,6 +124,27 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Result<OAuth2Dto> githubAuth(String code) {
+        // 获取github token
+        String accessToken = githubAuthService.getAccessToken(code);
+        // 获取用户信息
+        GithubUser githubUser = githubAuthService.getUserInfo(accessToken);
+        // 匹配当前系统是否存在用户
+        AuthDto authDto = authRepository.queryAuth(Oauth2Enums.GITHUB.getCode(), githubUser.getId());
+        // 存在直接返回token
+        OAuth2Dto oAuth2Dto = new OAuth2Dto();
+        if (authDto == null) {
+            // 没有提示不存在，需填充用户信息
+            User user = User.create(githubUser.getLogin());
+            Auth auth = Auth.create(Oauth2Enums.GITHUB.getCode(), githubUser.getLogin(), githubUser.getId());
+            userManager.save(user, auth);
+            oAuth2Dto = OAuth2Dto.notRegister();
+        }
+        TokenDto tokenDto = createTokenDto(githubUser.getLogin());
+        return Result.success(oAuth2Dto.fill(tokenDto));
+    }
+
     private void validationCaptcha(String uuid, String captcha) {
         // 拉取验证码，
         String loadCaptcha = redisUtils.getStr(uuid);
@@ -126,5 +154,18 @@ public class UserServiceImpl implements UserService {
         }
         // 删除验证码
         redisUtils.del(uuid);
+    }
+
+    /**
+     * 创建token Dto
+     *
+     * @param username the username
+     * @return the {@link TokenDto} data
+     */
+    private TokenDto createTokenDto(String username) {
+        String token = jwtTokenUtils.generateToken(username);
+        return new TokenDto()
+                .setToken(token)
+                .setTokenHead(jwtProperties.getTokenHead());
     }
 }

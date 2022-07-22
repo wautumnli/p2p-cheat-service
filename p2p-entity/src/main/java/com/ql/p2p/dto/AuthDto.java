@@ -1,15 +1,12 @@
 package com.ql.p2p.dto;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
  * @author wanqiuli
- * @date 2022/7/10 01:35
+ * @date 2022/7/22 21:39
  */
 @Data
-@Accessors(chain = true)
 public class AuthDto {
-    private String token;
-    private String tokenHead;
+    private String username;
 }

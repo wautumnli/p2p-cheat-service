@@ -12,4 +12,15 @@ public class User {
     private String username;
     private String password;
     private String nickname;
+    private String createUser;
+    private String updateUser;
+
+    public static User create(String login) {
+        User user = new User();
+        user.setUsername(login);
+        user.setNickname(login);
+        user.setCreateUser(login);
+        user.setUpdateUser(login);
+        return user;
+    }
 }
